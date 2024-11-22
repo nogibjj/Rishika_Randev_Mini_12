@@ -1,19 +1,29 @@
-install:
-#installs requirements
-	pip install --upgrade pip && pip install -r requirements.txt
+# Define the image name
+IMAGE_NAME = mini_12_rr
+DOCKER_ID_USER = rrandev25
 
-format:
-#formats files according to pep8
-	black *.py
+# Build the Docker image
+build:
+	docker build -t $(IMAGE_NAME) .
 
-lint:
-#checks to make sure Python files are formatted to industry standard
-	pylint --ignore-patterns=test_.*?py *.py
+# Run the Docker container
+run:
+	docker run -p 5000:5000 $(IMAGE_NAME)
 
-test:
-#tests files
-	python -m pytest -cov=main test_main.py
+# Remove the Docker image
+clean:
+	docker rmi $(IMAGE_NAME)
 
-all:
-#all of the above
-	install format lint test
+image_show:
+	docker images
+
+container_show:
+	docker ps
+
+push:
+	docker login
+	docker tag $(IMAGE_NAME) $(DOCKER_ID_USER)/$(IMAGE_NAME)
+	docker push $(DOCKER_ID_USER)/$(IMAGE_NAME):latest
+
+login:
+	docker login -u ${DOCKER_ID_USER}

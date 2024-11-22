@@ -8,3 +8,6 @@ pylint==2.15.3
 numpy==2.1.0
 matplotlib==3.9.0
 
+#app
+flask
+
